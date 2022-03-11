@@ -1,0 +1,8 @@
+image: ubuntu/lts
+packages:
+- perl
+- rakudo
+sources:
+- https://github.com/allsopp/p6-operator-db.git
+tasks:
+- test: cd p6-operator-db && prove --exec perl6

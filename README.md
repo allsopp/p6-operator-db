@@ -1,5 +1,7 @@
 # Operator::dB
 
+[![builds.sr.ht status](https://builds.sr.ht/~allsopp/p6-operator-db.svg)](https://builds.sr.ht/~allsopp/p6-operator-db?)
+
 Operator to support decibel (dB) arithmetic.
 
     use Operator::dB;
