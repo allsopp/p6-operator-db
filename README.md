@@ -1,6 +1,6 @@
 # Operator::dB
 
-[![builds.sr.ht status](https://builds.sr.ht/~allsopp/p6-operator-db.svg)](https://builds.sr.ht/~allsopp/p6-operator-db?)
+[![test](https://github.com/allsopp/p6-operator-db/actions/workflows/test.yml/badge.svg)](https://github.com/allsopp/p6-operator-db/actions/workflows/test.yml)
 
 Operator to support decibel (dB) arithmetic.
 
