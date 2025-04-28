@@ -2,31 +2,42 @@
 
 [![test](https://github.com/allsopp/p6-operator-db/actions/workflows/test.yml/badge.svg)](https://github.com/allsopp/p6-operator-db/actions/workflows/test.yml)
 
-Operator to support decibel (dB) arithmetic.
+## Synopsis
 
-    use Operator::dB;
+`Operator::dB` is an operator to support decibel (dB) arithmetic.
 
-    put 100 + 3dB;
-    # 199.52623149688796
+All the examples in this README were obtained using the Raku REPL. Please note,
+to use the REPL with custom operators like this one, you'll need Raku 2025.03
+or later because of [this bug](https://github.com/rakudo/rakudo/issues/2245).
 
-    put 100 - 3dB;
-    # 50.11872336272723
+    > 100 + 30dB
+    100000
+    > 100 - 30dB
+    0.1
+    > put 10dB + 20dB
+    20.413927dB
 
-    put 10dB + 20dB;
-    # 20.413927dB
+The interface tries to be intuitive while avoiding ambiguity. For example,
 
-## Description
+    > 10 + 20dB
+    1000
 
-The interface tries to be intuitive while avoiding ambiguity.  For example, the
-following makes sense (adding 3dB is approximately equivalent to doubling).
+makes sense because adding `20dB` is multiplying by `10^2`. But,
 
-    10 + 3dB
-    # 19.952623149688794
+    > 20dB + 10 # DOESN'T WORK!
 
-But the following doesn't make sense. It could represent either `13dB` or
-`10.8dB` (i.e. `3dB + 10dB`).
+doesn't, because it ambiguously represents both of the following:
 
-    3dB + 10 # DOESN'T WORK!
+- `30.0dB` i.e. `(20 + 10)dB`
+- `20.4dB` i.e. `20dB + 10dB`
+
+## Installation
+
+To install the latest version, run:
+
+    $ zef install Operator::dB
+
+## Operations
 
 All supported operations are discussed in the following subsections.
 
@@ -35,11 +46,10 @@ All supported operations are discussed in the following subsections.
 Adding or subtracting decibel values to and from numbers (of `Numeric` type)
 scales the number by the corresponding decibel gain:
 
-    put 100 + 3dB;
-    # 199.52623149688796
-
-    put 100 - 3dB;
-    # 50.11872336272723
+    > 1+40dB
+    10000
+    > 1-40dB
+    0.0001
 
 ### Addition and subtraction on decibels
 
@@ -47,29 +57,29 @@ Decibels can be added to, or subtracted from, each other.
 
 This type of operation returns an `Operator::dB::Decibel` wrapper object:
 
-    my $foo = 3dB + 2dB - 1dB;
-    # Operator::dB::Decibel.new(x => 10, y => 0.365...)
+    > my $foo = 3dB + 2dB - 1dB
+    Operator::dB::Decibel.new(x => 10, y => 0.36571819272302736e0)
 
 You can get the decibel value itself with `.dB`:
 
-    $foo.dB;
-    # 3.6571819272302735
+    > $foo.dB
+    3.6571819272302735
 
 Or by stringification:
 
-    "The gain is: $foo";
-    # The gain is: 3.657182dB
+    > "The gain is: $foo"
+    The gain is 3.657182dB
 
 Or by defining your own format with `.fmt`:
 
-    $foo.fmt("%.1f dB(A)");
-    # 3.7 dB(A)
+    > $foo.fmt("%.1f dB(A)")
+    3.7 dB(A)
 
 ## Caveats
 
 This package exports overloads to built-in operators, which is potentially
 reckless. But the operator signatures all contain at least one
-`Operator::dB::Decibel` object (which is not built-in), so it _should_ be
+`Operator::dB::Decibel` object -- which is not built-in -- so it _should_ be
 fine!
 
 The `Num` method is not implemented on the wrapper class, so many built-in
