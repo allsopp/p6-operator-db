@@ -2,7 +2,7 @@
     "name" : "Operator::dB",
     "auth" : "github:allsopp",
     "source-url": "https://github.com/allsopp/p6-operator-db.git",
-    "version" : "0.0.97",
+    "version" : "0.1.0",
     "perl" : "6.d",
     "authors" : [ "Owen Allsopp" ],
     "tags" : [ "operator", "math" ],
